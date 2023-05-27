@@ -1,0 +1,11 @@
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.csproj.AssemblyReference.cache
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.csproj.SuggestedBindingRedirects.cache
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.Design.resources
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.Properties.Resources.resources
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.csproj.GenerateResource.cache
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.csproj.CoreCompileInputs.cache
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\bin\Debug\Design.exe.config
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\bin\Debug\Design.exe
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\bin\Debug\Design.pdb
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.exe
+C:\Users\guigu\OneDrive\Documentos\3ºAno_2ºSemestre\BD\BD2023\Design\Design\obj\Debug\Design.pdb
