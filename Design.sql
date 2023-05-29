@@ -13,7 +13,8 @@ create table Design_DesignersFirm(
 go
 
 create table Design_Manufacturer(
-	[CompanyNIF] [int] not null primary key references Design_Company ([NIF])
+	[CompanyNIF] [int] not null primary key references Design_Company ([NIF]),
+	[Quality] [varchar](64) not null
 )
 go
 
@@ -40,17 +41,16 @@ create table Design_Designer(
 go
 
 create table Design_TypeOfProducts(
-	[CodeType] [int] not null primary key
+	[CodeType] [int] not null primary key,
+	[TypeName] [varchar](64) not null
 )
 go
 
 create table Design_Products(
 	[CodeProduct] [int] not null primary key,
 	[Manufacturer_NIF] [int] not null references Design_Manufacturer ([CompanyNIF]),
-	--[Quantity] [int] not null primary key,
 	[Quantity] [int] not null,
-	[Designer_Code] [int] not null references Design_Designer ([EmployeeCode]),
-	[Sales] [int] not null,
+	[Name] [varchar](128) not null,
 	[Price] [int] not null,
 	[Type_Code] [int] not null references Design_TypeOfProducts ([CodeType])
 )
@@ -97,8 +97,17 @@ go
 
 create table Design_Has(
 	[Room_Location] [int] not null references Design_Rooms ([Location]),
-	/*[Product_Quantity] [int] not null references Design_Products ([Quantity]),*/
 	[Product_Code] [int] not null references Design_Products ([CodeProduct]),
 	primary key ([Room_Location],[Product_Code])
+)
+go
+
+create table Design_Sales(
+	[Product_code] [int] not null references Design_Products ([CodeProduct]),
+	[Designer_code] [int] not null references Design_Designer ([EmployeeCode]),
+	[Amount] [int] not null,
+	[Date] [Date] not null,
+	[Discount] [int] not null,
+	primary key ([Product_code], [Designer_code])
 )
 go

@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,21 +22,25 @@ namespace Design
         {
             InitializeComponent();
             comboBox1.Visible = false;
+            comboBox5.Visible = false;
             HideDesignerButtons();
             HideNewClientButtons();
             listManufacturer.Visible= false;
+            listDesigners.Visible= false;
         }
 
         private void Design_Load(object sender, EventArgs e)
         {
             cn = getSGBDConnection();
+            AddManufacturers();
             
         }
 
         private SqlConnection getSGBDConnection()
         {
-            return new SqlConnection("data source=tcp:mednat.ieeta.pt\\SQLSERVER,8101;integrated security=true;initial catalog=p1g5");
+            return new SqlConnection("Data Source=tcp:mednat.ieeta.pt\\SQLSERVER,8101;User ID=p1g5;Password=Lol.001#;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
+        
 
         private bool verifySGBDConnection()
         {
@@ -50,30 +55,39 @@ namespace Design
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!verifySGBDConnection())
-                return;
-
-            listManufacturer.Visible= true;
-
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Manufacturer", cn);
-            SqlDataReader reader = cmd.ExecuteReader();
-            listManufacturer.Items.Clear();
-
-            while (reader.Read())
+            listManufacturer.Visible = true;
+            try
             {
-                Manufacturer M = new Manufacturer();
-               
-                M.Name = reader["name"].ToString();
-                M.Address = reader["address"].ToString();
-                //M.NIF = reader["nif"].ToString();
-                //M.Phone = reader["phone"];
-                listManufacturer.Items.Add(M);
+                    if (!verifySGBDConnection())
+                        return;
+
+                SqlCommand cmd = new SqlCommand("SELECT m.CompanyNIF, c.Name, m.Quality FROM Design_Manufacturer m " +
+                                         "INNER JOIN Design_Company c ON m.CompanyNIF = c.NIF", cn);
+
+                listManufacturer.Items.Clear();                 
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        int nif = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string quality = reader.GetString(2);
+
+                        string manufacturerInfo = $"Name: {name}, Quality: {quality}, NIF: {nif}";
+                        listManufacturer.Items.Add(manufacturerInfo);
+                    }
+                    reader.Close();
+                    cn.Close();
             }
-            cn.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            listManufacturer.Visible= true;
             if(comboBox1.Visible == true)
             {
                 comboBox1.Visible = false;
@@ -181,6 +195,77 @@ namespace Design
             comboBox3.Visible = true;
             comboBox4.Visible = true;
             newClient = true;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            listDesigners.Visible = true;
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            listDesigners.Visible = true;
+            if (comboBox5.Visible == true)
+            {
+                comboBox5.Visible = false;
+            }
+            else
+            {
+                comboBox5.Visible = true;
+            }
+        }
+
+        private void AddManufacturers()
+        {
+            try
+            {
+                if (!verifySGBDConnection())
+                    return;
+
+                SqlCommand cmd = new SqlCommand("SELECT [CompanyNIF] FROM Design_Manufacturer", cn);
+
+                listManufacturer.Items.Clear();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    comboBox1.Items.Add(reader["CompanyNIF"].ToString());
+                }
+                reader.Close();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!verifySGBDConnection())
+                    return;
+
+                SqlCommand cmd = new SqlCommand("SELECT [CompanyNIF] FROM Design_Manufacturer", cn);
+
+                listManufacturer.Items.Clear();
+                int selectedNIF = Convert.ToInt32(comboBox1.SelectedItem);
+                
+                cmd.Parameters.AddWithValue("@NIF", selectedNIF);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    listManufacturer.Items.Add(reader["Name"].ToString());
+                }
+                reader.Close();
+                cn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
