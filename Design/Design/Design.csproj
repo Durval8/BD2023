@@ -52,7 +52,6 @@
     <Compile Include="Design.Designer.cs">
       <DependentUpon>Design.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manufacturer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Design.resx">
